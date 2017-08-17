@@ -1,50 +1,41 @@
 package com.happyship.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.happyship.dao.IUserDao;
+import com.happyship.dao.UserDao;
 import com.happyship.models.User;
 
 @Service
-public class UserService implements IUserService {
+public class UserService {
 	@Autowired
-	private IUserDao userDao;
+	private UserDao userDao;
 
-	@Override
-	public void saveOrUpdate(User entity) {
-		userDao.saveOrUpdate(entity);
+	public List getAllUsers() {
+
+		List users = new ArrayList<>();
+		userDao.findAll().forEach(users::add);
+
+		return users;
 	}
 
-	@Override
-	public User get(Integer id) {
-		User obj = userDao.find(id);
-		return obj;
+	public User getUser(Integer id) {
+		return userDao.findOne(id);
 	}
 
-	@Override
-	public void add(User entity) {
-		userDao.add(entity);
+	public void addUser(User user) {
+		userDao.save(user);
 	}
 
-	@Override
-	public List<User> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public void updateUser(Integer id, User user) {
+		userDao.save(user);
 	}
 
-	@Override
-	public void update(User entity) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void remove(User entity) {
-		// TODO Auto-generated method stub
-
+	public void deleteUser(Integer id) {
+		userDao.delete(id);
 	}
 
 }
