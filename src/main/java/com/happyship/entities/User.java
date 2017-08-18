@@ -1,4 +1,4 @@
-package com.happyship.models;
+package com.happyship.entities;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.happyship.dao.UserDao;
-import com.happyship.models.User;
+import com.happyship.entities.User;
 
 @Service
 public class UserService {
