@@ -38,4 +38,9 @@ public class UserService {
 		userDao.delete(id);
 	}
 
+	public User findByEmail(String email) {
+
+		return userDao.findByEmail(email);
+	}
+
 }

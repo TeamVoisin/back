@@ -7,5 +7,5 @@ import com.happyship.entities.User;
 
 @Repository
 public interface UserDao extends CrudRepository<User, Integer> {
-
+	User findByEmail(String email);
 }
