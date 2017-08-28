@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.happyship.entities.User;
-import com.happyship.services.UserService;
+import com.happyship.services.IUserService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,7 +26,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class UserController {
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 
 	// ------------ récupère tous les utilisateurs ------------
 	@RequestMapping(method = RequestMethod.GET)
@@ -91,6 +91,7 @@ public class UserController {
 	public User user(@RequestBody String email) {
 		System.out.println("+++++++++++++++++++++++++++++" + email + "+++++++++++++++++++++++++");
 		User user = userService.findByEmail(email);
+		System.out.println("********************" + user + "*****************************");
 		return user;
 	};
 
