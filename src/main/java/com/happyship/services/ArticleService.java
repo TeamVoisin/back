@@ -15,7 +15,7 @@ public class ArticleService implements IArticleService {
 	private ArticleDao articleDao;
 
 	public List getAllArticles() {
-		List articles = new ArrayList<>();
+		List articles = new ArrayList<Article>();
 		articleDao.findAll().forEach(articles::add);
 
 		return articles;
@@ -38,9 +38,4 @@ public class ArticleService implements IArticleService {
 		articleDao.delete(id);
 	}
 
-	@Override
-	public List getAllArticles(Integer user_id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

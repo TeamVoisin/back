@@ -17,6 +17,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * The persistent class for the article database table.
  * 
@@ -45,16 +48,20 @@ public class Article implements Serializable {
 	private String url;
 
 	// bi-directional many-to-one association to Category
-	@ManyToOne(fetch = FetchType.LAZY)
+	// @JsonIgnore
+	@JsonIgnoreProperties(value = { "id" })
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
 	// bi-directional many-to-one association to User
-	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnoreProperties({ "address", "dateInscription", "email", "id", "name", "password" })
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	// bi-directional many-to-many association to Groupe
+	@JsonIgnore
 	@ManyToMany(mappedBy = "articles")
 	private Set<Groupe> groupes;
 

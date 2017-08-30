@@ -58,6 +58,7 @@ public class User implements Serializable {
 	private Set<Article> articles;
 
 	// bi-directional many-to-many association to Groupe
+	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "user_groupe", joinColumns = {
 			@JoinColumn(name = "user_id", nullable = false) }, inverseJoinColumns = {

@@ -12,6 +12,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The persistent class for the category database table.
  * 
@@ -21,16 +23,15 @@ import javax.persistence.Table;
 @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c")
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(unique = true, nullable = false)
 	private int id;
-
 	@Column(name = "category_lib", nullable = false, length = 100)
 	private String categoryLib;
 
 	// bi-directional many-to-one association to Article
+	@JsonIgnore
 	@OneToMany(mappedBy = "category")
 	private Set<Article> articles;
 
@@ -77,7 +78,7 @@ public class Category implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Category [id=" + id + ", categoryLib=" + categoryLib + ", articles=" + articles + "]";
+		return "Category [id=" + id + ", categoryLib=" + categoryLib + "]";
 	}
 
 }
