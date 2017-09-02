@@ -44,7 +44,6 @@ public class ArticleController {
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public List searchAllArticles(@RequestBody Map<String, String> json) {
 		String keyword = json.get("keyword");
-		System.out.println(keyword);
 		List<Article> list = articleDao.findByKeyword(keyword);
 		return list;
 

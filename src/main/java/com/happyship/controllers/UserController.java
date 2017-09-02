@@ -43,8 +43,13 @@ public class UserController {
 
 	// ------------ crée un utilisateur ------------
 	@RequestMapping(method = RequestMethod.POST)
-	public void addUser(@RequestBody User user) {
-		userService.addUser(user);
+	public String addUser(@RequestBody User user) {
+		if (userService.addUser(user)) {
+			return "utilisateur enregistré avec succès";
+		} else {
+			return "email déjà utilisé";
+		}
+
 	}
 
 	// ------------ met à jour un utilisateur------------
@@ -87,6 +92,8 @@ public class UserController {
 
 	}
 
+	// recupere l'utilisateur et l'envoie coté client, afin de récupérer des infos
+	// en sessions
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public User user(@RequestBody String email) {
 		System.out.println("+++++++++++++++++++++++++++++" + email + "+++++++++++++++++++++++++");

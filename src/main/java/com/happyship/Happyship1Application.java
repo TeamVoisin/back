@@ -18,8 +18,9 @@ public class Happyship1Application {
 		final FilterRegistrationBean registrationBean = new FilterRegistrationBean();
 
 		registrationBean.setFilter(new JwtFilter());
-		registrationBean.addUrlPatterns("/rest/*");
-
+		registrationBean.addUrlPatterns("/articles/article");
+		registrationBean.addUrlPatterns("/articles/getlist");
+		registrationBean.addUrlPatterns("/users/user");
 		return registrationBean;
 	}
 

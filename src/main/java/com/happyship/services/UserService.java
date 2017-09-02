@@ -2,6 +2,7 @@ package com.happyship.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,19 +15,23 @@ public class UserService implements IUserService {
 	@Autowired
 	private UserDao userDao;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.happyship.services.IUserService#getAllUsers()
 	 */
 	@Override
-	public List getAllUsers() {
+	public List<User> getAllUsers() {
 
-		List users = new ArrayList<>();
+		List<User> users = new ArrayList<>();
 		userDao.findAll().forEach(users::add);
 
 		return users;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.happyship.services.IUserService#getUser(java.lang.Integer)
 	 */
 	@Override
@@ -34,23 +39,41 @@ public class UserService implements IUserService {
 		return userDao.findOne(id);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.happyship.services.IUserService#addUser(com.happyship.entities.User)
 	 */
 	@Override
-	public void addUser(User user) {
+	public boolean addUser(User user) {
+		List<User> users = this.getAllUsers();
+		ListIterator<User> it = users.listIterator();
+		while (it.hasNext()) {
+
+			if (it.next().getEmail().equals(user.getEmail())) {
+				System.out.println(it.next());
+				System.out.println("utilisateur déjà enregistré sous ce nom");
+				return false;
+			}
+		}
 		userDao.save(user);
+		return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see com.happyship.services.IUserService#updateUser(java.lang.Integer, com.happyship.entities.User)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.happyship.services.IUserService#updateUser(java.lang.Integer,
+	 * com.happyship.entities.User)
 	 */
 	@Override
 	public void updateUser(Integer id, User user) {
 		userDao.save(user);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.happyship.services.IUserService#deleteUser(java.lang.Integer)
 	 */
 	@Override
@@ -58,7 +81,9 @@ public class UserService implements IUserService {
 		userDao.delete(id);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.happyship.services.IUserService#findByEmail(java.lang.String)
 	 */
 	@Override

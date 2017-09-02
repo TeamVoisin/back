@@ -6,11 +6,11 @@ import com.happyship.entities.User;
 
 public interface IUserService {
 
-	List getAllUsers();
+	List<User> getAllUsers();
 
 	User getUser(Integer id);
 
-	void addUser(User user);
+	boolean addUser(User user);
 
 	void updateUser(Integer id, User user);
 
