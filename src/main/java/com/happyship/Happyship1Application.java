@@ -21,6 +21,7 @@ public class Happyship1Application {
 		registrationBean.addUrlPatterns("/articles/article");
 		registrationBean.addUrlPatterns("/articles/getlist");
 		registrationBean.addUrlPatterns("/users/user");
+		registrationBean.addUrlPatterns("/articles/delete");
 		return registrationBean;
 	}
 

@@ -84,6 +84,7 @@ public class ArticleController {
 
 	}
 
+	// récupère une liste d'article
 	@RequestMapping(value = "/getList", method = RequestMethod.POST)
 	public Set getArticles(@RequestBody String email) {
 		User user = userService.findByEmail(email);
@@ -99,8 +100,9 @@ public class ArticleController {
 	}
 
 	// ------------ supprime un article ------------
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public void deleteArticle(@PathVariable Integer id) {
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public void deleteArticle(@RequestBody Map<String, String> json) {
+		Integer id = Integer.parseInt(json.get("id"));
 		articleService.deleteArticle(id);
 	}
 
