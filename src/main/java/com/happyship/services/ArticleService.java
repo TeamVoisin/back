@@ -38,4 +38,10 @@ public class ArticleService implements IArticleService {
 		articleDao.delete(id);
 	}
 
+	@Override
+	public void updateArticle(Integer id, String description, String title) {
+		articleDao.update(id, description, title);
+
+	}
+
 }

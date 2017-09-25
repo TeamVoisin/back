@@ -10,10 +10,10 @@ public interface IArticleService {
 
 	void addArticle(Article article);
 
-	void updateArticle(Integer id, Article article);
-
 	void deleteArticle(Integer id);
 
-	List getAllArticles();;
+	List getAllArticles();
+
+	void updateArticle(Integer id, String description, String title);;
 
 }

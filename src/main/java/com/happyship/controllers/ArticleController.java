@@ -49,12 +49,6 @@ public class ArticleController {
 
 	}
 
-	// ------------ recupère un article ------------
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Article getArticle(@PathVariable Integer id) {
-		return articleService.getArticle(id);
-	}
-
 	// ------------ crée un article ------------
 	@RequestMapping(value = "/article", method = RequestMethod.POST)
 	// ici on récupère un json du client
@@ -93,17 +87,28 @@ public class ArticleController {
 		return setArticle;
 	}
 
-	// ------------ met à jour un article------------
-	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public void updateArticle(@RequestBody Article article, @PathVariable Integer id) {
-		articleService.updateArticle(id, article);
+	// ------------ supprime un article mais avec un POST donc ne respecte pas le
+	// REST------------
+	/*
+	 * @RequestMapping(value = "/delete", method = RequestMethod.POST) public void
+	 * deleteArticle(@RequestBody Map<String, String> json) { Integer id =
+	 * Integer.parseInt(json.get("id")); articleService.deleteArticle(id); }
+	 */
+
+	// ---------------supprime un article avec un delete----------
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public void deleteArticle(@PathVariable Integer id) {
+		articleService.deleteArticle(id);
 	}
 
-	// ------------ supprime un article ------------
-	@RequestMapping(value = "/delete", method = RequestMethod.POST)
-	public void deleteArticle(@RequestBody Map<String, String> json) {
+	// ------------ met à jour un article ------------
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public void updateArticle(@RequestBody Map<String, String> json) {
 		Integer id = Integer.parseInt(json.get("id"));
-		articleService.deleteArticle(id);
+		String description = json.get("description");
+		String title = json.get("title");
+		articleService.updateArticle(id, description, title);
+
 	}
 
 }
