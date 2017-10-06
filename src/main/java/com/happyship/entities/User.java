@@ -37,7 +37,13 @@ public class User implements Serializable {
 	@Column(nullable = false, length = 100)
 	private String address;
 
-	@Column(name = "date_inscription")
+	@Column(nullable = false, length = 50)
+	private String locality;
+
+	@Column(nullable = false, length = 5)
+	private int postal_code;
+
+	@Column(nullable = false, name = "date_inscription")
 	private String dateInscription = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 
 	@Column(nullable = false, length = 100)
@@ -49,7 +55,7 @@ public class User implements Serializable {
 	@Column(nullable = false, length = 100)
 	private String name;
 
-	@Column(length = 255)
+	@Column(nullable = false, length = 255)
 	private String password;
 
 	// bi-directional many-to-one association to Article
@@ -154,10 +160,27 @@ public class User implements Serializable {
 		this.groupes = groupes;
 	}
 
+	public String getLocality() {
+		return locality;
+	}
+
+	public void setLocality(String locality) {
+		this.locality = locality;
+	}
+
+	public int getPostal_code() {
+		return postal_code;
+	}
+
+	public void setPostal_code(int postal_code) {
+		this.postal_code = postal_code;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", address=" + address + ", dateInscription=" + dateInscription + ", email=" + email
-				+ ", firstname=" + firstname + ", name=" + name + "]";
+		return "User [id=" + id + ", address=" + address + ", locality=" + locality + ", postal_code=" + postal_code
+				+ ", dateInscription=" + dateInscription + ", email=" + email + ", firstname=" + firstname + ", name="
+				+ name + ", password=" + password + ", articles=" + articles + ", groupes=" + groupes + "]";
 	}
 
 }
