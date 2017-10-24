@@ -52,7 +52,7 @@ public class UserService implements IUserService {
 
 			if (it.next().getEmail().equals(user.getEmail())) {
 				System.out.println(it.next());
-				System.out.println("utilisateur déjà enregistré sous ce nom");
+				System.out.println("utilisateur déjà enregistré avec cet email");
 				return false;
 			}
 		}

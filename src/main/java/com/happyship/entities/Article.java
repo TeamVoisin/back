@@ -134,8 +134,23 @@ public class Article implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Article [id=" + id + ", date=" + date + ", title=" + title + ", url=" + url + ", category=" + category
-				+ ", user=" + user + ", groupes=" + groupes + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Article [id=");
+		builder.append(id);
+		builder.append(", date=");
+		builder.append(date);
+		builder.append(", title=");
+		builder.append(title);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", url=");
+		builder.append(url);
+		builder.append(", category=");
+		builder.append(category);
+		builder.append(", groupes=");
+		builder.append(groupes);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }

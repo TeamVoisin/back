@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.maps.model.LatLng;
 import com.happyship.entities.User;
 import com.happyship.services.IUserService;
 
@@ -44,6 +45,16 @@ public class UserController {
 	// ------------ crée un utilisateur ------------
 	@RequestMapping(method = RequestMethod.POST)
 	public String addUser(@RequestBody User user) {
+
+		int postalCode = user.getPostal_code();
+		System.out.println("*******************" + postalCode + "****************");
+		String address = user.getAddress();
+		String locality = user.getLocality();
+		LatLng latLng = user.getALatitude(address, postalCode, locality);
+		double l1 = latLng.lat;
+		double l2 = latLng.lng;
+		user.setLatitude(l1);
+		user.setLongitude(l2);
 		if (userService.addUser(user)) {
 			return "utilisateur enregistré avec succès";
 		} else {
