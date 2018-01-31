@@ -107,9 +107,7 @@ public class UserController {
 	// en sessions
 	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	public User user(@RequestBody String email) {
-		System.out.println("+++++++++++++++++++++++++++++" + email + "+++++++++++++++++++++++++");
 		User user = userService.findByEmail(email);
-		System.out.println("********************" + user + "*****************************");
 		return user;
 	};
 

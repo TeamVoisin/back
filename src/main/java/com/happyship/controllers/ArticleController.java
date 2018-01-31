@@ -16,7 +16,6 @@ import com.happyship.dao.ArticleDao;
 import com.happyship.dao.CategoryDao;
 import com.happyship.entities.Article;
 import com.happyship.entities.Category;
-import com.happyship.entities.User;
 import com.happyship.services.IArticleService;
 import com.happyship.services.IUserService;
 
@@ -43,8 +42,7 @@ public class ArticleController {
 
 	@RequestMapping(value = "/search", method = RequestMethod.POST)
 	public List searchAllArticles(@RequestBody Map<String, String> json) {
-		String keyword = json.get("keyword");
-		List<Article> list = articleDao.findByKeyword(keyword);
+		List<Article> list = articleDao.findByKeyword(json.get("keyword"));
 		return list;
 
 	}
@@ -55,23 +53,16 @@ public class ArticleController {
 	public String addArticle(@RequestBody Map<String, String> json) {
 
 		// on se sert de l'email pour retrouver l'utilisateur qui envoie l'article
-		String email = json.get("email");
-		User user = userService.findByEmail(email);
 		Article article = new Article();
-		article.setUser(user);
+		article.setUser(userService.findByEmail(json.get("email")));
 		// on récupère l'id pour trouver la cat et l'associer
-		Integer category_id = Integer.parseInt(json.get("category_id"));
-		Category category = categoryDao.findOne(category_id);
+		Category category = categoryDao.findOne(Integer.parseInt(json.get("category_id")));
 		article.setCategory(category);
 
 		// on recupere les autres champs pour les associer à l'article
-		String title = json.get("title");
-		String url = json.get("url");
-		String description = json.get("description");
-		article.setDescription(description);
-		article.setTitle(title);
-		article.setUrl(url);
-		System.out.println(article);
+		article.setDescription(json.get("description"));
+		article.setTitle(json.get("title"));
+		article.setUrl(json.get("url"));
 		// on enregistre l'article
 		articleService.addArticle(article);
 		return "article créé avec succès";
@@ -81,9 +72,7 @@ public class ArticleController {
 	// récupère une liste d'article
 	@RequestMapping(value = "/getList", method = RequestMethod.POST)
 	public Set getArticles(@RequestBody String email) {
-		User user = userService.findByEmail(email);
-		Set setArticle = user.getArticles();
-		System.out.println("*****************************" + setArticle + "*********************");
+		Set setArticle = userService.findByEmail(email).getArticles();
 		return setArticle;
 	}
 
@@ -104,10 +93,7 @@ public class ArticleController {
 	// ------------ met à jour un article ------------
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public void updateArticle(@RequestBody Map<String, String> json) {
-		Integer id = Integer.parseInt(json.get("id"));
-		String description = json.get("description");
-		String title = json.get("title");
-		articleService.updateArticle(id, description, title);
+		articleService.updateArticle(Integer.parseInt(json.get("id")), json.get("description"), json.get("title"));
 
 	}
 
