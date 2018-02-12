@@ -60,6 +60,12 @@ public class Article implements Serializable {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	// bi-directional many-to-one association to ImageModel
+	@JsonIgnoreProperties(value = { "id" })
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "image_id", nullable = true)
+	private Image image;
+
 	// bi-directional many-to-many association to Groupe
 	@JsonIgnore
 	@ManyToMany(mappedBy = "articles")
@@ -130,6 +136,14 @@ public class Article implements Serializable {
 
 	public void setGroupes(Set<Groupe> groupes) {
 		this.groupes = groupes;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 
 	@Override

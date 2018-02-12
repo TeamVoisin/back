@@ -1,5 +1,6 @@
 package com.happyship.controllers;
 
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,11 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.happyship.DTO.ArticleDTO;
 import com.happyship.dao.ArticleDao;
 import com.happyship.dao.CategoryDao;
 import com.happyship.entities.Article;
 import com.happyship.entities.Category;
+import com.happyship.entities.Image;
 import com.happyship.services.IArticleService;
+import com.happyship.services.IImageService;
 import com.happyship.services.IUserService;
 
 @RestController
@@ -32,6 +36,8 @@ public class ArticleController {
 	CategoryDao categoryDao;
 	@Autowired
 	ArticleDao articleDao;
+	@Autowired
+	IImageService imageService;
 
 	// ------------ récupère tous les articles ------------
 	@RequestMapping(method = RequestMethod.GET)
@@ -50,19 +56,29 @@ public class ArticleController {
 	// ------------ crée un article ------------
 	@RequestMapping(value = "/article", method = RequestMethod.POST)
 	// ici on récupère un json du client
-	public String addArticle(@RequestBody Map<String, String> json) {
+	public String addArticle(@RequestBody ArticleDTO articleDTO) {
 
 		// on se sert de l'email pour retrouver l'utilisateur qui envoie l'article
 		Article article = new Article();
-		article.setUser(userService.findByEmail(json.get("email")));
+		if (articleDTO.getUrl() == "") {
+			Image image = new Image();
+			image.setName(articleDTO.getImage().getName());
+			image.setType(articleDTO.getImage().getType());
+			image.setimage(Base64.getDecoder().decode((articleDTO.getImage().getImage())));
+			Integer imageId = imageService.saveImage(image);
+			image.setId(imageId);
+			article.setImage(image);
+		}
+
+		article.setUser(userService.findByEmail(articleDTO.getEmail()));
 		// on récupère l'id pour trouver la cat et l'associer
-		Category category = categoryDao.findOne(Integer.parseInt(json.get("category_id")));
+		Category category = categoryDao.findOne(articleDTO.getCategory_id());
 		article.setCategory(category);
 
 		// on recupere les autres champs pour les associer à l'article
-		article.setDescription(json.get("description"));
-		article.setTitle(json.get("title"));
-		article.setUrl(json.get("url"));
+		article.setDescription(articleDTO.getDescription());
+		article.setTitle(articleDTO.getTitle());
+		article.setUrl(articleDTO.getUrl());
 		// on enregistre l'article
 		articleService.addArticle(article);
 		return "article créé avec succès";
